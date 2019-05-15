@@ -7,13 +7,37 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class Controller1 {
 
     @GetMapping("/")
-    public String display() {
+    public String display(Model model) {
+
+    	model.addAttribute("rooms", getRoomWithBookings());
+
+        return "bookings_per_room_by_day";
+    }
+
+    private List<RoomWithBookings> getRoomWithBookings(){
     	//get rooms
 
-    	//get bookings by room for today
+    	//get bookings for today
 
-    	
-        return "bookings_per_room_by_day";
+    }
+
+    class RoomWithBookings {
+    	int id;
+    	String roomName;
+    	List<Booking> bookings;
+    }
+
+    class Booking{
+    	int id;
+    	BookingType type;
+    	String fullName;
+    	String period;
+    	int pax;
+    	String bedType;
+
+    	enum BookingType{
+    		STAY, RESERVATION
+    	}
     }
 
 }
