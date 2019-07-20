@@ -36,7 +36,11 @@
             <artifactId>mysql-connector-java</artifactId>
 			<version>5.1.47</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
-
+		<dependency>
+			<groupId>com.tropika</groupId>
+			<artifactId>tropika-jpa-entities</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		
 		<!-- security -->
 		<!--
