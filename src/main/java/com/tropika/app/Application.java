@@ -5,15 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 
 import com.tropika.app.persistence.StayDAO;
 
 import entities.Stay;
 
 @SpringBootApplication
-@ComponentScan({"entities","com.tropika.app"})
+@EntityScan("entities")
 public class Application {
 
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
