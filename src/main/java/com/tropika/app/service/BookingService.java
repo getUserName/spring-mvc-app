@@ -32,15 +32,16 @@ public class BookingService {
 	
 	private static DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("MM/dd/yyyy hh:mm:ssa").parseDefaulting(ChronoField.HOUR_OF_DAY, 0).toFormatter();
 	
-    public List<RoomWithBookings> getRoomWithBookings(){
+    public List<RoomWithBookings> getRoomWithBookings(LocalDate _date){
+    	log.info("Getting bookings.");
     	List<RoomWithBookings> rmsBks = new ArrayList<>();
     	
     	//get rooms
     	List<Room> rooms = roomDAO.findAll();
     	
-    	//get bookings per room for today
-    	LocalDateTime today = LocalDate.now().atStartOfDay();
-    	LocalDateTime tomorrow = today.plusDays(1);
+    	//get bookings per room for provided date
+    	LocalDateTime date = _date.atStartOfDay();
+    	LocalDateTime nextDay = date.plusDays(1);
     	
     	for(Room rm: rooms) {
     		
@@ -49,7 +50,7 @@ public class BookingService {
     		rmBks.roomName = rm.getName();
     		rmBks.bookings = new ArrayList<>();
     		
-    		List<Booking> stays = stayDAO.findByRoomAndDay(rm, today, tomorrow).stream().map(s -> {
+    		List<Booking> stays = stayDAO.findByRoomAndDay(rm, date, nextDay).stream().map(s -> {
         		Booking bk = new Booking();
         		bk.id = s.getId();
         		bk.type = BookingType.STAY;
@@ -61,7 +62,7 @@ public class BookingService {
         		return bk;
         	}).collect(Collectors.toList());
     		
-    		List<Booking> reservations = rsrvDAO.findByRoomAndDay(rm, today, tomorrow).stream().map(s -> {
+    		List<Booking> reservations = rsrvDAO.findByRoomAndDay(rm, date, nextDay).stream().map(s -> {
         		Booking bk = new Booking();
         		bk.id = s.getId();
         		bk.type = BookingType.RESERVATION;
@@ -72,13 +73,7 @@ public class BookingService {
         		
         		return bk;
         	}).collect(Collectors.toList());
-    		
-    		log.info("stays = "+(
-    								(stays==null)?
-    									("null"):
-										("list of "+stays.size())
-								)
-    				);
+
     		rmBks.bookings.addAll(stays);
     		rmBks.bookings.addAll(reservations);
     		
