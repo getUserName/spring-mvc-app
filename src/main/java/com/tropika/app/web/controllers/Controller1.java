@@ -9,7 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tropika.app.service.BookingService;
+import com.tropika.app.aop.annotations.LogExecution;
+import com.tropika.app.service.booking.BookingService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +22,7 @@ public class Controller1 {
 	private BookingService bkSrv;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 	
-    @GetMapping("/")
+    @GetMapping("/") @LogExecution
     public String display(Model model, @RequestParam(name="date", required=false) String dateParam) {
 
     	LocalDate date = convertDateParam(dateParam);

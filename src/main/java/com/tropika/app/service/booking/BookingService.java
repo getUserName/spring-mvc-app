@@ -1,4 +1,4 @@
-package com.tropika.app.service;
+package com.tropika.app.service.booking;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +17,6 @@ import com.tropika.app.persistence.accessors.room.RoomDAO;
 import com.tropika.app.persistence.accessors.stay.StayDAO;
 
 import entities.Room;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -82,25 +81,4 @@ public class BookingService {
 
     	return rmsBks;
     }
-
-    @Data
-    class RoomWithBookings {
-    	int id;
-    	String roomName;
-    	List<Booking> bookings;
-    }
-
-    @Data
-    class Booking{
-    	int id;
-    	BookingType type;
-    	String fullName;
-    	String period;
-    	int pax;
-    	String bedType;	
-    }
-    
-    enum BookingType{
-		STAY, RESERVATION
-	}
 }
