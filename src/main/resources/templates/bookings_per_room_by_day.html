@@ -6,7 +6,7 @@
 		<link rel="stylesheet" type="text/css" th:href="@{/css/grid.css}"/>
 	</head>
 	<body>
-		<input type="date"/>
+		<input id="month" type="date"/>
 		<br/>
 		<div name="rooms" class="grid-container">
 		  <div th:each="room : ${rooms}" name="room" class="grid-item">

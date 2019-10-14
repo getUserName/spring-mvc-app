@@ -31,6 +31,14 @@ public class BookingService {
 	
 	private static DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("MM/dd/yyyy hh:mm:ssa").parseDefaulting(ChronoField.HOUR_OF_DAY, 0).toFormatter();
 	
+	public List<Room> getRooms(){
+		return roomDAO.findAll();
+	}
+	
+	public void addRoom(Room room) {
+		roomDAO.save(room);
+	}
+	
     public List<RoomWithBookings> getRoomWithBookings(LocalDate _date){
     	log.info("Getting bookings.");
     	List<RoomWithBookings> rmsBks = new ArrayList<>();
@@ -45,36 +53,36 @@ public class BookingService {
     	for(Room rm: rooms) {
     		
     		RoomWithBookings rmBks = new RoomWithBookings();
-    		rmBks.id = rm.getId();
-    		rmBks.roomName = rm.getName();
-    		rmBks.bookings = new ArrayList<>();
+    		rmBks.setId(rm.getId());
+    		rmBks.setRoomName(rm.getName());
+    		rmBks.setBookings(new ArrayList<>());
     		
     		List<Booking> stays = stayDAO.findByRoomAndDay(rm, date, nextDay).stream().map(s -> {
         		Booking bk = new Booking();
-        		bk.id = s.getId();
-        		bk.type = BookingType.STAY;
-        		bk.fullName = s.getCheckinerFamilyName();
-        		bk.period = s.getCheckinDatetime().format(formatter) + " to " + s.getCheckoutDatetime().format(formatter);
-        		bk.pax = s.getPax();
-        		bk.bedType = s.getBedType();
+        		bk.setId(s.getId());
+        		bk.setType(BookingType.STAY);
+        		bk.setFullName(s.getCheckinerFamilyName());
+        		bk.setPeriod(s.getCheckinDatetime().format(formatter) + " to " + s.getCheckoutDatetime().format(formatter));
+        		bk.setPax(s.getPax());
+        		bk.setBedType(s.getBedType());
         		
         		return bk;
         	}).collect(Collectors.toList());
     		
     		List<Booking> reservations = rsrvDAO.findByRoomAndDay(rm, date, nextDay).stream().map(s -> {
         		Booking bk = new Booking();
-        		bk.id = s.getId();
-        		bk.type = BookingType.RESERVATION;
-        		bk.fullName = s.getReserverFamilyName();
-        		bk.period = s.getCheckinDatetime().format(formatter) + " to " + s.getCheckoutDatetime().format(formatter);
-        		bk.pax = s.getPax();
-        		bk.bedType = s.getBedType();
+        		bk.setId(s.getId());
+        		bk.setType(BookingType.RESERVATION);
+        		bk.setFullName(s.getReserverFamilyName());
+        		bk.setPeriod(s.getCheckinDatetime().format(formatter) + " to " + s.getCheckoutDatetime().format(formatter));
+        		bk.setPax(s.getPax());
+        		bk.setBedType(s.getBedType());
         		
         		return bk;
         	}).collect(Collectors.toList());
 
-    		rmBks.bookings.addAll(stays);
-    		rmBks.bookings.addAll(reservations);
+    		rmBks.getBookings().addAll(stays);
+    		rmBks.getBookings().addAll(reservations);
     		
     		rmsBks.add(rmBks);
     	}

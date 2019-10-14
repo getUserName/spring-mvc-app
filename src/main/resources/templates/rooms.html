@@ -1,0 +1,27 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		
+		<title>Rooms</title>
+	</head>
+	<body>
+		<table name="rooms">
+			<tr>
+				<th>Room</th>
+				<th>Bed Type</th>
+				<th>Status</th>
+			</tr>
+			<tr th:each="room : ${rooms}" name="room">
+				<td>
+					<label th:text="${room.name}" name="name">101</label>
+				</td>
+				<td>
+					<label th:text="${room.bedType}" name="bedtype">King</label>
+				</td>
+				<td>
+					<label th:text="${room.status}" name="status">Active</label>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
