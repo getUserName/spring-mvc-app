@@ -6,14 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.tropika.app.aop.annotations.LogExecution;
+import com.tropika.app.service.SetupService;
 import com.tropika.app.service.booking.DTO.Room;
-import com.tropika.app.service.booking.SetupService2;
 
 @Controller
 public class RoomController {
 	
 	@Autowired
-	private SetupService2 setupSrv;
+	private SetupService setupSrv;
 	
 	@GetMapping("/rooms") @LogExecution
     public String rooms(Model model) {
