@@ -16,6 +16,7 @@ public interface RsrvDAO extends CrudRepository<Reservation, Integer>{
 			+ "("
 			+ "x.checkinDatetime BETWEEN :start AND :end OR "
 			+ "x.checkoutDatetime BETWEEN :start AND :end"
-			+ ")")
+			+ ") AND "
+			+ "x.status='NOT CHECKED IN'")
 	List<Reservation> findByRoomAndDay(@Param("room") Room r, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }

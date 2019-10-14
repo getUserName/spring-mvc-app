@@ -34,11 +34,7 @@ public class BookingService {
 	
 	
 	private static DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("MM/dd/yyyy hh:mm:ssa").parseDefaulting(ChronoField.HOUR_OF_DAY, 0).toFormatter();
-	
 
-
-	
-	
     public List<RoomWithBookings> getRoomWithBookings(LocalDate _date){
     	log.info("Getting bookings.");
     	List<RoomWithBookings> rmsBks = new ArrayList<>();
@@ -58,7 +54,7 @@ public class BookingService {
         		Booking bk = new Booking();
         		bk.setId(s.getId());
         		bk.setType(BookingType.STAY);
-        		bk.setFullName(s.getCheckinerFamilyName());
+        		bk.setFullName(s.getCheckinerFamilyName()+", "+s.getCheckinerGivenName()+" "+s.getCheckinerMiddleName());
         		bk.setPeriod(s.getCheckinDatetime().format(formatter) + " to " + s.getCheckoutDatetime().format(formatter));
         		bk.setPax(s.getPax());
         		bk.setBedType(s.getBedType());
@@ -70,7 +66,7 @@ public class BookingService {
         		Booking bk = new Booking();
         		bk.setId(s.getId());
         		bk.setType(BookingType.RESERVATION);
-        		bk.setFullName(s.getReserverFamilyName());
+        		bk.setFullName(s.getReserverFamilyName()+", "+s.getReserverGivenName()+" "+s.getReserverMiddleName());
         		bk.setPeriod(s.getCheckinDatetime().format(formatter) + " to " + s.getCheckoutDatetime().format(formatter));
         		bk.setPax(s.getPax());
         		bk.setBedType(s.getBedType());
