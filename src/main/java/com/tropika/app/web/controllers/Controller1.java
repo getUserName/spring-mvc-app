@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tropika.app.aop.annotations.LogExecution;
 import com.tropika.app.service.booking.BookingService;
-import entities.Room;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,22 +31,7 @@ public class Controller1 {
 
         return "bookings_per_room_by_day";
     }
-    
-    @GetMapping("/rooms") @LogExecution
-    public String rooms(Model model) {
-    	
-    	model.addAttribute("rooms", bkSrv.getRooms());
-    	
-    	return "rooms";
-    }
-    
-    @GetMapping("/addroom") @LogExecution
-    public String addRoom(Model model, Room room) {
-    	bkSrv.addRoom(room);
-    	
-    	return rooms(model);
-    }
-    
+
     private LocalDate convertDateParam(String dateParam) {
     	try {
     		if(dateParam==null) return LocalDate.now();

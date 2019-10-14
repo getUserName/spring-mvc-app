@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tropika.app.persistence.accessors.reservation.RsrvDAO;
-import com.tropika.app.persistence.accessors.room.RoomDAO;
+import com.tropika.app.persistence.accessors.setup.RoomDAO;
 import com.tropika.app.persistence.accessors.stay.StayDAO;
+import com.tropika.app.service.booking.DTO.Booking;
+import com.tropika.app.service.booking.DTO.BookingType;
+import com.tropika.app.service.booking.DTO.RoomWithBookings;
 
 import entities.Room;
 import lombok.extern.slf4j.Slf4j;
@@ -29,28 +32,22 @@ public class BookingService {
 	@Autowired
 	RoomDAO roomDAO;
 	
+	
 	private static DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("MM/dd/yyyy hh:mm:ssa").parseDefaulting(ChronoField.HOUR_OF_DAY, 0).toFormatter();
 	
-	public List<Room> getRooms(){
-		return roomDAO.findAll();
-	}
+
+
 	
-	public void addRoom(Room room) {
-		roomDAO.save(room);
-	}
 	
     public List<RoomWithBookings> getRoomWithBookings(LocalDate _date){
     	log.info("Getting bookings.");
     	List<RoomWithBookings> rmsBks = new ArrayList<>();
     	
-    	//get rooms
-    	List<Room> rooms = roomDAO.findAll();
-    	
     	//get bookings per room for provided date
     	LocalDateTime date = _date.atStartOfDay();
     	LocalDateTime nextDay = date.plusDays(1);
     	
-    	for(Room rm: rooms) {
+    	for(Room rm: roomDAO.findAll()) {
     		
     		RoomWithBookings rmBks = new RoomWithBookings();
     		rmBks.setId(rm.getId());
